@@ -1,0 +1,192 @@
+
+<div class="Containers logoblock">
+  <div class="">
+     <div class="slider-container ">
+      <div class="slider-container__inner">
+           <div class="slider-container__inner">  <input type="range" class="range-slider1" min="0" max="2" value="0" step="1"style="background-size: 0% 100%;">
+           {% for block in section.blocks %}
+              <div class="slider__marker slider__marker--{{ forloop.index }}"></div>
+           {% endfor %}
+      </div>
+    </div>
+    <div class="logoimagess">
+          {% for block in section.blocks %}
+            <div class="mobileZoom forHide{{ forloop.index }}">
+                 <div class="showcontent">
+                      <div class="parterimg MagicZoom" href="{{ media | img_url: '2024x2024' }}" data-options="zoomPosition: inner">
+                        <img src="{{ block.settings.molileimg|img_url: '800x' }}" class="rounded image-zoom{{ forloop.index }}">
+                      </div>
+                    
+                      <div class="tab-content">
+                            <h2 class="maintext">APPEARANCE :<span class="appertext">{{ block.settings.mappearance }}</span></h2>
+                            <h2 class="screen">SCREEN :{{ block.settings.mscreen }}</h2>
+                            <h2 class="techcondi">Technical Condition: <span class="appertext">{{ block.settings.condition }}</span></h2>
+                            <p class="descus">{{ block.settings.mobileDes }}</p>
+                      </div>
+                 </div>
+            </div>
+           {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "range_slider",
+    "class":"range_slider",
+    "settings": [
+  
+      
+    ],
+    "blocks": [
+  {
+    "type": "collection",
+    "name": "Collection",
+    "settings": [
+       {
+    "type": "image_picker",
+    "id": "molileimg",
+    "label": "Image"
+      },
+       {
+    "type": "text",
+    "id": "mappearance",
+    "label": "Appearance"
+      },
+       {
+    "type": "text",
+    "id": "mscreen",
+    "label": "Screen"
+      },
+        {
+    "type": "text",
+    "id": "condition",
+    "label": "Condition"
+      },
+        {
+    "type": "text",
+    "id": "mobileDes",
+    "label": "Description"
+      }
+    ]
+  }
+    ],
+      
+      
+      
+      "presets": [
+  {
+   "name": "range_slider"
+  }
+]
+  }
+{% endschema %}
+<style>
+  input.range-slider1 {
+    width: 100%;
+    -webkit-appearance: none;
+    width: 100%;
+    outline: 0;
+    transition: opacity .2s;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+    margin-top: 12%;
+    background: rgba(164,134,204,.3);
+    border: none;
+    border-radius: 0;
+    height: 0.5rem;
+}
+  .slider-container__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 60%;
+    margin: 5% auto 3% auto;
+}
+  .appertext ,.techcondi ,.screen{
+    font-family: var(--font-stack-header);
+    font-weight: var(--font-weight-header);
+    font-style: var(--font-style-header);
+    color: var(--color-heading-text);
+    line-height: normal;
+    font-size: 16px;}
+.maintext{
+    font-size: 1.25rem;
+    margin-bottom: 0.625rem;
+    font-family: Oswald, sans-serif;
+    line-height: 1.75rem;
+    font-weight: 500;
+}
+  .mobileZoom {
+    margin-bottom: 3%;
+}
+  @media screen and (max-width: 520px){
+    .slider-container__inner {
+        width: 90%;
+    }
+    .round-loope{
+    height:115px!important;
+    width:115px!important;
+    }
+    .tab-content {
+    margin: 5% 0;
+    }
+    .slider-container__inner{
+      margin:5% auto 8% auto;
+    }
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" type="text/Javascript"></script>
+<script>
+ 
+$( window ).on( "load", function() {
+    $(".mobileZoom").addClass("hide-images");
+    var sliderValue = ($(".range-slider1[type=range]").val());
+    numfield  = parseInt($(".range-slider1[type=range]").val())+1 ;
+    init_zoom_fun(numfield);
+    $(".forHide"+numfield).removeClass("hide-images");
+    rangeSlider = $(".range_slider .range-slider1");
+
+    rangeSlider.on("input", function () {
+      
+      console.log("input click");
+        var sliderValue = $(".range-slider1[type=range]").val();
+          console.log(sliderValue + "sliderValue");
+        sliderValue = $(this).val();
+        numfield  = parseInt($(".range-slider1[type=range]").val())+1 ;
+        
+        $(".mobileZoom").each(function(){
+            if(!$(this).hasClass("hide-images")){
+                  $(this).addClass("hide-images");
+            }
+        })
+        $(".forHide"+numfield).removeClass("hide-images");
+        init_zoom_fun(numfield);
+    
+    });
+   
+});
+
+
+  function init_zoom_fun(nummm){
+    var current_src = $('.image-zoom'+nummm).attr("src");
+    $(".round-loope").find("img").attr("src",current_src);
+
+  
+
+    $('.image-zoom'+nummm).imagezoomsl({
+
+      innerzoommagnifier: true,
+      classmagnifier: "round-loope",
+      magnifiersize: [200, 200],
+      disablewheel: false
+    });
+  
+  }
+</script>
+
+
+
